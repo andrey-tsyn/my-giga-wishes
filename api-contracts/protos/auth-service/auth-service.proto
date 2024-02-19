@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "github.com/andrey-tsyn/my-giga-wishes/api-contracts;authv1";
+
+service Auth { 
+    rpc Register (RegisterRequest) returns (RegisterResponse);
+    rpc LoginViaEmail (LoginViaEmailRequest) returns (LoginResponse);
+    rpc LoginViaUsername (LoginViaUsernameRequest) returns (LoginResponse);
+    rpc Logout (LogoutRequest) returns (LogoutResponse);
+}
+
+message RegisterRequest {
+    string email = 1;
+    string username = 2;
+    string password = 3;
+}
+
+message RegisterResponse {
+    int64 user_id = 1;
+}
+
+message LoginViaUsernameRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginViaEmailRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    string token = 1;
+}
+
+message LogoutRequest {
+  string token = 1;
+}
+
+message LogoutResponse {
+  bool success = 1;
+}
