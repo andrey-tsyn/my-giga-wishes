@@ -6,4 +6,5 @@ type User struct {
 	Email    email
 	PassHash []byte
 	Roles    []string
+	IsActive bool
 }
