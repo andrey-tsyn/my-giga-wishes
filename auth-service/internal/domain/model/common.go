@@ -14,14 +14,23 @@ func (u *username) String() string {
 }
 
 type email struct {
-	data string
+	data       string
+	isVerified bool
 }
 
 func (e *email) String() string {
 	return e.data
 }
 
-func NewEmail(emailStr string) (email, error) {
+func (e *email) GetEmail() string {
+	return e.data
+}
+
+func (e *email) IsVerified() bool {
+	return e.isVerified
+}
+
+func NewEmail(emailStr string, isVerified bool) (email, error) {
 	// TODO: email validation
-	return email{data: emailStr}, nil
+	return email{data: emailStr, isVerified: isVerified}, nil
 }
