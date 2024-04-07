@@ -1,11 +1,13 @@
 package main
 
 import (
-	"log/slog"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/andrey-tsyn/my-giga-wishes/auth-service/internal/app"
 	"github.com/andrey-tsyn/my-giga-wishes/auth-service/internal/configuration"
+	"github.com/rs/zerolog"
 )
 
 const (
@@ -16,36 +18,22 @@ const (
 func main() {
 	cfg := configuration.LoadConfig()
 
-	logger := initLogger(cfg)
+	// logger := initLogger(cfg)
+	logger := zerolog.New(zerolog.NewConsoleWriter())
 
-	app := app.NewApp(cfg, logger)
-	app.Run()
+	app := app.NewApp(cfg, &logger)
 
+	err := app.Run()
+	if err != nil {
+		logger.Fatal().Err(err).Send()
+	}
+
+	terminate := make(chan os.Signal, 2)
+	signal.Notify(terminate, os.Interrupt, syscall.SIGTERM)
+	<-terminate
 	// TODO: graceful shutdown
 }
 
-// initLogger panics if can't initialize
-func initLogger(config *configuration.Config) *slog.Logger {
-	var handler slog.Handler
-
-	level := slog.Level(0)
-	err := level.UnmarshalText([]byte(config.LogLevel))
-	if err != nil {
-		panic(err.Error())
-	}
-
-	switch config.Env {
-	case string(envDev):
-		handler = slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: level})
-	case string(envProduction):
-		panic("not implemented")
-	}
-
-	log := slog.New(handler)
-	log.Debug("Debug level is on.")
-	log.Info("Info level is on.")
-	log.Warn("Warn level is on.")
-	log.Error("Error level is on.")
-
-	return log
+// panics if can't initialize
+func initLogger(config *configuration.Config) {
 }

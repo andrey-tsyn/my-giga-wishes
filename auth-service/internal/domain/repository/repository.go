@@ -1,6 +1,6 @@
 package repository
 
-import "github.com/andrey-tsyn/my-giga-wishes/auth-service/internal/domain/model"
+import "github.com/andrey-tsyn/my-giga-wishes/auth-service/pkg/domain/model"
 
 type UserRepository interface {
 	CreateUser(user model.User) error
