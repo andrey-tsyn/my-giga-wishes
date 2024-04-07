@@ -1,17 +1,16 @@
 package app
 
 import (
-	"log/slog"
-
 	"github.com/andrey-tsyn/my-giga-wishes/auth-service/internal/configuration"
+	"github.com/rs/zerolog"
 )
 
 type App struct {
 	config *configuration.Config
-	logger *slog.Logger
+	logger *zerolog.Logger
 }
 
-func NewApp(cfg *configuration.Config, logger *slog.Logger) *App {
+func NewApp(cfg *configuration.Config, logger *zerolog.Logger) *App {
 	return &App{
 		config: cfg,
 		logger: logger,

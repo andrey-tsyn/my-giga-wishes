@@ -1,0 +1,6 @@
+env: "dev"
+log_level: "debug"
+
+grpc:
+  port: 8090
+  timeout: 1h
