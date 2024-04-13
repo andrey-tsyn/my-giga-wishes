@@ -1,4 +1,4 @@
-module github.com/andrey-tsyn/my-giga-wishes/tree/master/api-contracts
+module github.com/andrey-tsyn/my-giga-wishes/api-contracts
 
 go 1.22.0
 
