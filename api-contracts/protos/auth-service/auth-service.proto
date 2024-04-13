@@ -9,6 +9,8 @@ service Auth {
     rpc LoginViaEmail (LoginViaEmailRequest) returns (LoginResponse);
     rpc LoginViaUsername (LoginViaUsernameRequest) returns (LoginResponse);
     rpc Logout (LogoutRequest) returns (LogoutResponse);
+    rpc GetUserInfo (UserInfoRequest) returns (UserInfoResponse);
+    rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
 }
 
 message RegisterRequest {
@@ -41,4 +43,26 @@ message LogoutRequest {
 
 message LogoutResponse {
   bool success = 1;
+}
+
+message ValidateTokenRequest {
+    string token = 1;
+    string serviceName = 2;
+}
+
+message ValidateTokenResponse {
+    bool is_valid = 1;
+    int64 user_id = 2;
+    string expires_at_unix = 3;
+}
+
+message UserInfoRequest {
+    int64 user_id = 1;
+}
+
+message UserInfoResponse {
+    string username = 1;
+    string email = 2;
+    repeated string roles = 3;
+    bool is_active = 4;
 }
